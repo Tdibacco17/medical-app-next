@@ -1,7 +1,11 @@
 'use client'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+    const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -14,27 +18,29 @@ export default function Login() {
             username: username,
             password: password,
             redirect: false,
-            callbackUrl: '/dashboard'
+            // callbackUrl: '/dashboard'
         })
         // console.log(response)
-        // if (!response?.ok) {
-        //     alert('Credenciales invalidas')
-        // }
+        if (!response?.ok || response?.status === 401) {
+            alert('Credenciales invalidas')
+        } else {
+            router.push('/dashboard')
+        }
     }
 
     return (
-        <div className="flex flex-col gap-8 items-center bg-gray-300 p-12">
+        <div>
             Login
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <input name="username" required type="text" placeholder="Usuario" />
-                <input name="password" required type="password" placeholder="Contraseña" />
-                <button onClick={() => signIn('credentials', {
+            <form onSubmit={handleSubmit} >
+                <Input name="username" required type="text" placeholder="Usuario" />
+                <Input name="password" required type="password" placeholder="Contraseña" />
+                <Button onClick={() => signIn('credentials', {
                     callbackUrl: '/dashboard',
                     redirect: false,
                 })}
                     type="submit">
                     Iniciar sesion
-                </button>
+                </Button>
             </form>
         </div>
     );

@@ -2,8 +2,10 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
-import Link from "next/link";
 import Provider from "@/context/Provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
+import { ThemeProvider } from "@/context/theme-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,18 +24,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <Provider >
-          <nav className="text-sm flex gap-8 justify-center py-4">
-            <Link href="/">home</Link>
-            <Link href="/login">login</Link>
-            <Link href="/dashboard">dashboard</Link>
-            <Link href="/dashboard/profile">profile</Link>
-          </nav>
-          <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            {children}
-          </main>
-        </Provider>
+      <body className={cn("bg-muted/40 font-sans antialiased", fontSans.variable)}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Provider>
+            <TooltipProvider delayDuration={0}>
+              {children}
+            </TooltipProvider>
+            <Toaster richColors position="bottom-left" />
+          </Provider>
+        </ThemeProvider>
       </body>
     </html>
   );
