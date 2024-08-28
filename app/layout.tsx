@@ -2,10 +2,10 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
-import Provider from "@/context/Provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/context/theme-provider"
+import { ThemeProvider } from "@/context/ThemeProvider"
+import SessionProvider from "@/context/SessionProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,12 +31,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Provider>
+          <SessionProvider>
             <TooltipProvider delayDuration={0}>
               {children}
             </TooltipProvider>
             <Toaster richColors position="bottom-left" />
-          </Provider>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

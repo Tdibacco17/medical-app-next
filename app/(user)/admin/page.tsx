@@ -3,45 +3,77 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Login() {
-    const router = useRouter()
+    const router = useRouter();
+    const [errorMessage, setErrorMessage] = useState<null | string>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const username = formData.get('username') as string;
+        const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
+        if (!email || !password) return
+
         const response = await signIn('credentials', {
-            username: username,
+            email: email,
             password: password,
             redirect: false,
             // callbackUrl: '/dashboard'
         })
         // console.log(response)
         if (!response?.ok || response?.status === 401) {
-            alert('Credenciales invalidas')
+            setErrorMessage('Credenciales invalidas');
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 4000)
         } else {
             router.push('/dashboard')
         }
     }
 
     return (
-        <div>
-            Login
-            <form onSubmit={handleSubmit} >
-                <Input name="username" required type="text" placeholder="Usuario" />
-                <Input name="password" required type="password" placeholder="Contraseña" />
-                <Button onClick={() => signIn('credentials', {
-                    callbackUrl: '/dashboard',
-                    redirect: false,
-                })}
-                    type="submit">
-                    Iniciar sesion
-                </Button>
+        <Card className="w-[350px]">
+            <CardHeader>
+                <CardTitle>Iniciar sesión</CardTitle>
+                <CardDescription>Ingresa con tus credenciales</CardDescription>
+            </CardHeader>
+            <form onSubmit={handleSubmit}>
+                <CardContent>
+                    <div className="grid w-full items-center gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" name="email" placeholder="m@example.com" type="email" />
+                        </div>
+                        <div className="flex flex-col space-y-1.5">
+                            <Label htmlFor="password">Contraseña</Label>
+                            {/* <div className="flex items-center">
+                                <Link href="#" className="ml-auto inline-block text-xs text-muted-foreground underline">
+                                    Cambiar contraseña?
+                                </Link>
+                            </div> */}
+                            <Input id="password" name="password" placeholder="********" type="password" />
+                        </div>
+                    </div>
+                </CardContent>
+                <CardFooter className="flex flex-col justify-between gap-4 w-full">
+                    <Button type="submit" className="w-full" variant={'blue'}>Iniciar sesión</Button>
+                    {errorMessage && <small className="text-sm text-destructive">{errorMessage}</small>}
+                </CardFooter>
             </form>
-        </div>
+        </Card>
     );
 }
