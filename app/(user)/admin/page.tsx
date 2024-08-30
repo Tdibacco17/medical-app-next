@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
-import Link from "next/link";
+import { SpinIcon } from "@/components/Icons/Icons";
 
 export default function Login() {
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<null | string>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -27,6 +28,7 @@ export default function Login() {
         const password = formData.get('password') as string;
 
         if (!email || !password) return
+        setLoading(true);
 
         const response = await signIn('credentials', {
             email: email,
@@ -37,11 +39,15 @@ export default function Login() {
         // console.log(response)
         if (!response?.ok || response?.status === 401) {
             setErrorMessage('Credenciales invalidas');
+            setLoading(false);
             setTimeout(() => {
-                setErrorMessage(null)
+                setErrorMessage(null);
             }, 4000)
         } else {
-            router.push('/dashboard')
+            setTimeout(() => {
+                setLoading(false);
+                router.push('/dashboard')
+            }, 2000)
         }
     }
 
@@ -70,7 +76,9 @@ export default function Login() {
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-col justify-between gap-4 w-full">
-                    <Button type="submit" className="w-full" variant={'blue'}>Iniciar sesión</Button>
+                    <Button disabled={loading} type="submit" className="w-full" variant={'blue'}>
+                        {loading && <SpinIcon />} Iniciar sesión
+                    </Button>
                     {errorMessage && <small className="text-sm text-destructive">{errorMessage}</small>}
                 </CardFooter>
             </form>

@@ -51,16 +51,15 @@ export default function Navigation() {
                 </NavItem>
             </nav>
             <DropdownMenu >
-                <DropdownMenuTrigger className={buttonVariants({ variant: "outline", size: 'icon', className: 'py-2' })}>
+                <DropdownMenuTrigger className={buttonVariants({ variant: "outline", size: 'icon', className: 'py-2' })} asChild>
                     <GearIcon className="w-5 h-5" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent sideOffset={8} className="!ml-5">
+                <DropdownMenuContent align="start">
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>Tema</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent>
                                 <DropdownMenuItem onClick={() => setTheme("light")}>Modo claro</DropdownMenuItem>
-                                <DropdownMenuSeparator />
                                 <DropdownMenuItem onClick={() => setTheme("dark")}>Modo oscuro</DropdownMenuItem>
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
