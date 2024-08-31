@@ -1,7 +1,6 @@
-import { PlusIcon } from "@radix-ui/react-icons"
-import { Button } from "@/components/ui/button"
 import { DoctorCard } from "@/components/DoctorCard/DoctorCard"
 import { DoctorIntarface } from "@/types/DoctorTypes";
+import DoctorCreate from "@/components/DoctorCard/DoctorCreate";
 
 const doctorsData: DoctorIntarface[] = [
     {
@@ -217,7 +216,7 @@ export default function Doctors() {
     return (
         <section className="flex w-full flex-col gap-8">
             <div className="flex justify-end w-full gap-4">
-                <Button variant={'blue'} className="flex items-center justify-center gap-2" size={'sm'}><PlusIcon />Crear medico</Button>
+                <DoctorCreate />
             </div>
             <div className="grid lg:grid-cols-2 gap-8">
                 {doctorsData.map((doctorData: DoctorIntarface) => {

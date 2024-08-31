@@ -1,5 +1,4 @@
 'use client'
-import { Separator } from "@/components/ui/separator"
 import {
     Sheet,
     SheetClose,
@@ -13,45 +12,29 @@ import {
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { DoctorIntarface, TimeSlot, WorkDay } from "@/types/DoctorTypes"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { PlusIcon } from "@radix-ui/react-icons"
+import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { timeDataAfternoon, timeDataMorning } from "@/models/doctor"
+import { TimeSlot, WorkDay } from "@/types/DoctorTypes"
+import { Separator } from "@/components/ui/separator"
+import { initialWorkingTime, timeDataAfternoon, timeDataMorning } from "@/models/doctor"
 
-interface NewFormDataDoctorInterface {
-    name: string,
-    specialty: string,
-    email: string,
-    phone: string,
-}
-
-export default function DoctorEdit({ doctorData }: { doctorData: DoctorIntarface }) {
+export default function DoctorCreate() {
     const [isOpen, setIsOpen] = useState(false);
 
-    const [formData, setFormData] = useState<NewFormDataDoctorInterface>({
-        name: doctorData.name,
-        specialty: doctorData.specialty,
-        email: doctorData.email,
-        phone: doctorData.phone,
-    });
+    const nameRef = useRef<HTMLInputElement>(null)
+    const specialtyRef = useRef<HTMLInputElement>(null)
+    const emailRef = useRef<HTMLInputElement>(null)
+    const phoneRef = useRef<HTMLInputElement>(null)
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
-    }, []);
-
-    const [workingTime, setWorkingTime] = useState<WorkDay[]>(doctorData.working_time);
+    const [workingTime, setWorkingTime] = useState<WorkDay[]>(initialWorkingTime);
 
     const handleTimeSlotChange = useCallback((dayId: number, timeOfDay: 'morning' | 'afternoon', field: 'from' | 'to', value: string) => {
         setWorkingTime(prevWorkingTime =>
@@ -71,89 +54,81 @@ export default function DoctorEdit({ doctorData }: { doctorData: DoctorIntarface
 
     useEffect(() => {
         if (!isOpen) {
-            setWorkingTime(doctorData.working_time);
-            setFormData({
-                name: doctorData.name,
-                specialty: doctorData.specialty,
-                email: doctorData.email,
-                phone: doctorData.phone,
-            })
+            setWorkingTime(initialWorkingTime);
+            if (nameRef.current) nameRef.current.value = "";
+            if (specialtyRef.current) specialtyRef.current.value = "";
+            if (emailRef.current) emailRef.current.value = "";
+            if (phoneRef.current) phoneRef.current.value = "";
         }
     }, [isOpen]);
 
     return (
         <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
             <SheetTrigger asChild>
-                <Button variant="ghost" className="w-full text-left justify-start px-2 py-1/5">Editar</Button>
+                <Button variant={'blue'} className="flex items-center justify-center gap-2" size={'sm'}><PlusIcon />Crear medico</Button>
             </SheetTrigger>
             <SheetContent className="overflow-y-auto h-full min-w-full wrapper:min-w-[750px] ">
-                <SheetHeader >
-                    <SheetTitle>Editar medico</SheetTitle>
+                <SheetHeader>
+                    <SheetTitle>Crear medico</SheetTitle>
                     <SheetDescription>
-                        Completar con los valores que desee cambiar.
+                        Completar con los valores del nuevo profesional.
                     </SheetDescription>
                 </SheetHeader>
                 <div className={`flex flex-col py-8`}>
                     <form className="grid gap-8 h-full">
-                        <InfoDoctorValues formData={formData} handleChange={handleChange} />
+                        <InfoDoctorValues nameRef={nameRef} specialtyRef={specialtyRef} emailRef={emailRef} phoneRef={phoneRef} />
                         <Separator />
-                        <InfoTimesValues doctorData={doctorData} handleTimeSlotChange={handleTimeSlotChange} />
+                        <InfoTimesValues workingTime={workingTime} handleTimeSlotChange={handleTimeSlotChange} />
                     </form>
                 </div>
-                <SheetFooter >
-                    <SheetClose asChild >
-                        <Button type="submit" variant={'blue'} size={'sm'}>Guardar cambios</Button>
+                <SheetFooter>
+                    <SheetClose asChild>
+                        <Button type="submit" variant={'blue'} size={'sm'}>Crear medico</Button>
                     </SheetClose>
                 </SheetFooter>
-            </SheetContent>
-        </Sheet>
+            </SheetContent >
+        </Sheet >
     )
 }
 
 interface InfoDoctorValues {
-    formData: NewFormDataDoctorInterface,
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    nameRef: RefObject<HTMLInputElement>,
+    specialtyRef: RefObject<HTMLInputElement>,
+    emailRef: RefObject<HTMLInputElement>,
+    phoneRef: RefObject<HTMLInputElement>
 }
-function InfoDoctorValues({ formData, handleChange }: InfoDoctorValues) {
+function InfoDoctorValues({ nameRef, specialtyRef, emailRef, phoneRef }: InfoDoctorValues) {
     return (
         <div className="flex flex-col gap-4">
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="edit-doctor-name">Nombre</Label>
+                <Label htmlFor="create-doctor-name">Nombre</Label>
                 <Input
-                    id="edit-doctor-name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    id="create-doctor-name"
+                    ref={nameRef}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="edit-doctor-specialty">Especialidad</Label>
+                <Label htmlFor="create-doctor-specialty">Especialidad</Label>
                 <Input
-                    id="edit-doctor-specialty"
-                    name="specialty"
-                    value={formData.specialty}
-                    onChange={handleChange}
+                    id="create-doctor-specialty"
+                    ref={specialtyRef}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="edit-doctor-email">Email</Label>
+                <Label htmlFor="create-doctor-email">Email</Label>
                 <Input
-                    id="edit-doctor-email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
+                    id="create-doctor-email"
+                    ref={emailRef}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="edit-doctor-phone">Teléfono</Label>
+                <Label htmlFor="create-doctor-phone">Teléfono</Label>
                 <Input
-                    id="edit-doctor-phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
+                    id="create-doctor-phone"
+                    ref={phoneRef}
                     className="col-span-4"
                 />
             </div>
@@ -161,11 +136,11 @@ function InfoDoctorValues({ formData, handleChange }: InfoDoctorValues) {
     )
 }
 
-interface InfoTimesValuesInterace {
-    doctorData: DoctorIntarface;
+interface InfoTimesValuesInterface {
+    workingTime: WorkDay[];
     handleTimeSlotChange: (dayId: number, timeOfDay: 'morning' | 'afternoon', field: 'from' | 'to', value: string) => void;
 }
-function InfoTimesValues({ doctorData, handleTimeSlotChange }: InfoTimesValuesInterace) {
+function InfoTimesValues({ workingTime, handleTimeSlotChange }: InfoTimesValuesInterface) {
 
     const morningOptions = useMemo(() => timeDataMorning.map(time => (
         <SelectItem key={`morning-${time}`} value={time}>
@@ -182,11 +157,11 @@ function InfoTimesValues({ doctorData, handleTimeSlotChange }: InfoTimesValuesIn
     return (
         <div className="flex flex-col gap-4">
             <div className="grid grid-cols-5 gap-4">
-                <Label className="text-muted-foreground">Dia</Label>
+                <Label className="text-muted-foreground">Día</Label>
                 <Label className="col-span-2 text-muted-foreground">Mañana</Label>
                 <Label className="col-span-2 text-muted-foreground">Tarde</Label>
             </div>
-            {doctorData.working_time.map((workDay: WorkDay) => {
+            {workingTime.map((workDay: WorkDay) => {
                 return (
                     <div key={workDay.id} className="grid grid-cols-5 items-center gap-4">
                         <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -222,11 +197,9 @@ function InfoTimesValues({ doctorData, handleTimeSlotChange }: InfoTimesValuesIn
 }
 
 interface TimeSlotSelectInterface {
-    timeData: React.ReactNode[];
-    placeholder: string;
-    onChange: (value: string) => void;
+    timeData: any, onChange: (value: string) => void, placeholder: string
 }
-function TimeSlotSelect({ timeData, placeholder, onChange }: TimeSlotSelectInterface) {
+function TimeSlotSelect({ timeData, onChange, placeholder }: TimeSlotSelectInterface) {
     return (
         <Select onValueChange={onChange}>
             <SelectTrigger className="overflow-hidden">
@@ -234,10 +207,9 @@ function TimeSlotSelect({ timeData, placeholder, onChange }: TimeSlotSelectInter
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Hora</SelectLabel>
                     {timeData}
                 </SelectGroup>
             </SelectContent>
         </Select>
-    );
-};
+    )
+}
