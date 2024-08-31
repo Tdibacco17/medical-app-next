@@ -19,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        wrapper: "992px"
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -53,7 +56,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        blue:{
+        blue: {
           DEFAULT: "hsl(var(--blue-primary))",
           foreground: "hsl(var(--blue-foreground))",
         }

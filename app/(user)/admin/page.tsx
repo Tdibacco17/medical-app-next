@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
-import Link from "next/link";
+import { SpinIcon } from "@/components/Icons/Icons";
 
 export default function Login() {
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<null | string>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -27,6 +28,7 @@ export default function Login() {
         const password = formData.get('password') as string;
 
         if (!email || !password) return
+        setLoading(true);
 
         const response = await signIn('credentials', {
             email: email,
@@ -37,11 +39,15 @@ export default function Login() {
         // console.log(response)
         if (!response?.ok || response?.status === 401) {
             setErrorMessage('Credenciales invalidas');
+            setLoading(false);
             setTimeout(() => {
-                setErrorMessage(null)
+                setErrorMessage(null);
             }, 4000)
         } else {
-            router.push('/dashboard')
+            setTimeout(() => {
+                setLoading(false);
+                router.push('/dashboard')
+            }, 2000)
         }
     }
 
@@ -55,22 +61,24 @@ export default function Login() {
                 <CardContent>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" name="email" placeholder="m@example.com" type="email" />
+                            <Label htmlFor="login-email">Email</Label>
+                            <Input id="login-email" name="email" placeholder="m@example.com" type="email" />
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="password">Contraseña</Label>
+                            <Label htmlFor="login-password">Contraseña</Label>
                             {/* <div className="flex items-center">
                                 <Link href="#" className="ml-auto inline-block text-xs text-muted-foreground underline">
                                     Cambiar contraseña?
                                 </Link>
                             </div> */}
-                            <Input id="password" name="password" placeholder="********" type="password" />
+                            <Input id="login-password" name="password" placeholder="********" type="password" />
                         </div>
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-col justify-between gap-4 w-full">
-                    <Button type="submit" className="w-full" variant={'blue'}>Iniciar sesión</Button>
+                    <Button disabled={loading} type="submit" className="w-full" variant={'blue'}>
+                        {loading && <SpinIcon />} Iniciar sesión
+                    </Button>
                     {errorMessage && <small className="text-sm text-destructive">{errorMessage}</small>}
                 </CardFooter>
             </form>
