@@ -61,17 +61,17 @@ export default function Login() {
                 <CardContent>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" name="email" placeholder="m@example.com" type="email" />
+                            <Label htmlFor="login-email">Email</Label>
+                            <Input id="login-email" name="email" placeholder="m@example.com" type="email" />
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="password">Contraseña</Label>
+                            <Label htmlFor="login-password">Contraseña</Label>
                             {/* <div className="flex items-center">
                                 <Link href="#" className="ml-auto inline-block text-xs text-muted-foreground underline">
                                     Cambiar contraseña?
                                 </Link>
                             </div> */}
-                            <Input id="password" name="password" placeholder="********" type="password" />
+                            <Input id="login-password" name="password" placeholder="********" type="password" />
                         </div>
                     </div>
                 </CardContent>
