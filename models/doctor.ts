@@ -1,4 +1,4 @@
-import { WorkDay } from "@/types/DoctorTypes";
+import { DoctorIntarface, WorkDay } from "@/types/DoctorTypes";
 
 export const timeDataMorning = [
     '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00',
@@ -16,4 +16,214 @@ export const initialWorkingTime: WorkDay[] = [
     { id: 3, day: 'Miércoles', morning: { from: null, to: null }, afternoon: { from: null, to: null } },
     { id: 4, day: 'Jueves', morning: { from: null, to: null }, afternoon: { from: null, to: null } },
     { id: 5, day: 'Viernes', morning: { from: null, to: null }, afternoon: { from: null, to: null } }
+];
+
+export const doctorsData: DoctorIntarface[] = [
+    {
+        id: 1,
+        name: 'Luciana Fernández',
+        phone: '+541112346789',
+        email: 'luciana.fernandez@example.com',
+        specialty: 'Cardiología',
+        working_time: [
+            {
+                id: 1,
+                day: 'Lunes',
+                morning: {
+                    from: '8:00',
+                    to: '12:00'
+                },
+                afternoon: {
+                    from: '13:00',
+                    to: '17:00'
+                },
+            },
+            {
+                id: 2,
+                day: 'Martes',
+                morning: {
+                    from: null,
+                    to: null
+                },
+                afternoon: {
+                    from: '14:00',
+                    to: '18:00'
+                },
+            },
+            {
+                id: 3,
+                day: 'Miércoles',
+                morning: {
+                    from: '9:00',
+                    to: '13:00'
+                },
+                afternoon: {
+                    from: null,
+                    to: null
+                },
+            },
+            {
+                id: 4,
+                day: 'Jueves',
+                morning: {
+                    from: null,
+                    to: null
+                },
+                afternoon: {
+                    from: null,
+                    to: null
+                },
+            },
+            {
+                id: 5,
+                day: 'Viernes',
+                morning: {
+                    from: '8:00',
+                    to: '12:00'
+                },
+                afternoon: {
+                    from: '13:00',
+                    to: '17:00'
+                },
+            }
+        ]
+    },
+    {
+        id: 2,
+        name: 'Diego Rodríguez',
+        phone: '+541198765432',
+        email: 'diego.rodriguez@example.com',
+        specialty: 'Neurología',
+        working_time: [
+            {
+                id: 1,
+                day: 'Lunes',
+                morning: {
+                    from: '7:00',
+                    to: '11:00'
+                },
+                afternoon: {
+                    from: '12:00',
+                    to: '16:00'
+                },
+            },
+            {
+                id: 2,
+                day: 'Martes',
+                morning: {
+                    from: '9:00',
+                    to: '13:00'
+                },
+                afternoon: {
+                    from: '14:00',
+                    to: '18:00'
+                },
+            },
+            {
+                id: 3,
+                day: 'Miércoles',
+                morning: {
+                    from: null,
+                    to: null
+                },
+                afternoon: {
+                    from: null,
+                    to: null
+                },
+            },
+            {
+                id: 4,
+                day: 'Jueves',
+                morning: {
+                    from: '10:00',
+                    to: '14:00'
+                },
+                afternoon: {
+                    from: null,
+                    to: null
+                },
+            },
+            {
+                id: 5,
+                day: 'Viernes',
+                morning: {
+                    from: null,
+                    to: null
+                },
+                afternoon: {
+                    from: '12:00',
+                    to: '16:00'
+                },
+            }
+        ]
+    },
+    {
+        id: 3,
+        name: 'Mariana López',
+        phone: '+541123456789',
+        email: 'mariana.lopez@example.com',
+        specialty: 'Pediatría',
+        working_time: [
+            {
+                id: 1,
+                day: 'Lunes',
+                morning: {
+                    from: '8:00',
+                    to: '12:00'
+                },
+                afternoon: {
+                    from: null,
+                    to: null
+                },
+            },
+            {
+                id: 2,
+                day: 'Martes',
+                morning: {
+                    from: null,
+                    to: null
+                },
+                afternoon: {
+                    from: '14:00',
+                    to: '18:00'
+                },
+            },
+            {
+                id: 3,
+                day: 'Miércoles',
+                morning: {
+                    from: '8:00',
+                    to: '12:00'
+                },
+                afternoon: {
+                    from: '13:00',
+                    to: '17:00'
+                },
+            },
+            {
+                id: 4,
+                day: 'Jueves',
+                morning: {
+                    from: null,
+                    to: null
+                },
+                afternoon: {
+                    from: '13:00',
+                    to: '17:00'
+                },
+            },
+            {
+                id: 5,
+                day: 'Viernes',
+                morning: {
+                    from: '8:00',
+                    to: '12:00'
+                },
+                afternoon: {
+                    from: null,
+                    to: null
+                },
+            }
+        ]
+    }
 ];
