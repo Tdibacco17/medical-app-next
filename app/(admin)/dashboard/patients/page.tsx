@@ -2,7 +2,8 @@ import PatientCreate from "@/components/Patients/PatientCreate";
 import PatientsTable from "@/components/Patients/PatientsTable";
 import { Input } from "@/components/ui/input";
 
-export default function Patients() {
+export default function Patients({ searchParams }: { searchParams?: { [key: string]: string } | undefined, }) {
+
     return (
         <section className="flex w-full flex-col gap-8">
             <div className="flex justify-end w-full gap-4">
@@ -12,7 +13,7 @@ export default function Patients() {
                 </div>
             </div>
             <div className="w-full">
-                <PatientsTable />
+                <PatientsTable searchParams={searchParams} />
             </div>
         </section>
     )

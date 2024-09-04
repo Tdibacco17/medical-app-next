@@ -34,7 +34,7 @@ export default function Navigation() {
                 <NavItem href="/dashboard" isActive={isDashboard} text="Panel principal">
                     <DashboardIcon className="w-5 h-5" />
                 </NavItem>
-                <NavItem href="/dashboard/patients" isActive={isPatients} text="Pacientes">
+                <NavItem href="/dashboard/patients?page=1" isActive={isPatients} text="Pacientes">
                     <PatientsIcon />
                 </NavItem>
                 <NavItem href="/dashboard/doctors" isActive={isDoctors} text="Medicos">

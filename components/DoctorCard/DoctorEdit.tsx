@@ -87,24 +87,26 @@ export default function DoctorEdit({ doctorData }: { doctorData: DoctorIntarface
                 <Button variant="ghost" className="w-full text-left justify-start px-2 py-1/5">Editar</Button>
             </SheetTrigger>
             <SheetContent className="overflow-y-auto h-full min-w-full wrapper:min-w-[750px] ">
-                <SheetHeader >
-                    <SheetTitle>Editar medico</SheetTitle>
-                    <SheetDescription>
-                        Completar con los valores que desee cambiar.
-                    </SheetDescription>
-                </SheetHeader>
-                <div className={`flex flex-col py-8`}>
-                    <form className="grid gap-8 h-full">
-                        <InfoDoctorValues formData={formData} handleChange={handleChange} />
-                        <Separator />
-                        <InfoTimesValues doctorData={doctorData} handleTimeSlotChange={handleTimeSlotChange} />
-                    </form>
-                </div>
-                <SheetFooter >
-                    <SheetClose asChild >
-                        <Button type="submit" variant={'blue'} size={'sm'}>Guardar cambios</Button>
-                    </SheetClose>
-                </SheetFooter>
+                <form>
+                    <SheetHeader >
+                        <SheetTitle>Editar medico</SheetTitle>
+                        <SheetDescription>
+                            Completar con los valores que desee cambiar.
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div className={`flex flex-col py-8`}>
+                        <div className="grid gap-8 h-full">
+                            <InfoDoctorValues formData={formData} handleChange={handleChange} />
+                            <Separator />
+                            <InfoTimesValues doctorData={doctorData} handleTimeSlotChange={handleTimeSlotChange} />
+                        </div>
+                    </div>
+                    <SheetFooter >
+                        <SheetClose asChild >
+                            <Button type="submit" variant={'blue'} size={'sm'}>Guardar cambios</Button>
+                        </SheetClose>
+                    </SheetFooter>
+                </form>
             </SheetContent>
         </Sheet>
     )

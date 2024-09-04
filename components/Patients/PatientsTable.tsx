@@ -19,8 +19,22 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { patientsData } from "@/models/patients";
 import { PatientInterface } from "@/types/PatientsTypes"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button, buttonVariants } from "@/components/ui/button"
+import PatientDelete from "./PatientDelete";
+import PatientEdit from "./PatientEdit";
+import PatientsTablePaginate from "./PatientsTablePaginate";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
-export default function PatientsTable() {
+export default function PatientsTable({ searchParams }: { searchParams?: { [key: string]: string } | undefined, }) {
+
+
     return (
         <Card x-chunk="dashboard-05-chunk-3">
             <CardHeader className="px-7">
@@ -34,180 +48,62 @@ export default function PatientsTable() {
                     <TableHeader>
                         <TableRow>
                             <TableHead>
-                                Nombre</TableHead>
-                            <TableHead className="hidden sm:table-cell">
+                                Ficha medica
+                            </TableHead>
+                            <TableHead>
+                                Nombre
+                            </TableHead>
+                            <TableHead >
                                 Email
                             </TableHead>
-                            <TableHead className="text-right">
+                            <TableHead >
                                 Teléfono
                             </TableHead>
-                            <TableHead className="text-right">
-                                Fichas medicas
+                            <TableHead>
+                                {""}
                             </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {patientsData.map((patientData: PatientInterface) => {
+                        {patientsData.slice(0, 6).map((patientData: PatientInterface) => {
                             return (
-                                <TableCell key={patientData.id}>
-
-                                </TableCell>
+                                <TableRow key={patientData.id}>
+                                    <TableCell width={200}>
+                                        <div className="font-medium">{patientData.medicalRecordId}</div>
+                                    </TableCell>
+                                    <TableCell width={350}>
+                                        <div className="flex space-x-2">
+                                            <div className="font-medium">{patientData.name}</div>
+                                            {patientData.healthcarePlan &&
+                                                <Badge variant={"outline"}>{patientData.healthcarePlan}</Badge>}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell width={350}>
+                                        {patientData.email}
+                                    </TableCell>
+                                    <TableCell width={200}>
+                                        {patientData.phone}
+                                    </TableCell>
+                                    <TableCell width={50}>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant={'ghost'} size={'icon'}><DotsHorizontalIcon /></Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem>Ver detalle</DropdownMenuItem>
+                                                <PatientEdit patientData={patientData} />
+                                                <DropdownMenuSeparator />
+                                                <PatientDelete patientId={patientData.id} />
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                </TableRow>
                             )
                         })}
-                        {/* <TableRow className="bg-accent">
-                            <TableCell>
-                                <div className="font-medium">Liam Johnson</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    liam@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Sale
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="secondary">
-                                    Fulfilled
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-23
-                            </TableCell>
-                            <TableCell className="text-right">$250.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <div className="font-medium">Olivia Smith</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    olivia@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Refund
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="outline">
-                                    Declined
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-24
-                            </TableCell>
-                            <TableCell className="text-right">$150.00</TableCell>
-                        </TableRow> */}
-                        {/* <TableRow>
-                            <TableCell>
-                                <div className="font-medium">Noah Williams</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    noah@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Subscription
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="secondary">
-                                    Fulfilled
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-25
-                            </TableCell>
-                            <TableCell className="text-right">$350.00</TableCell>
-                        </TableRow> */}
-                        {/* <TableRow>
-                            <TableCell>
-                                <div className="font-medium">Emma Brown</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    emma@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Sale
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="secondary">
-                                    Fulfilled
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-26
-                            </TableCell>
-                            <TableCell className="text-right">$450.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <div className="font-medium">Liam Johnson</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    liam@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Sale
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="secondary">
-                                    Fulfilled
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-23
-                            </TableCell>
-                            <TableCell className="text-right">$250.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <div className="font-medium">Olivia Smith</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    olivia@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Refund
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="outline">
-                                    Declined
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-24
-                            </TableCell>
-                            <TableCell className="text-right">$150.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <div className="font-medium">Emma Brown</div>
-                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                    emma@example.com
-                                </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                Sale
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant="secondary">
-                                    Fulfilled
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                                2023-06-26
-                            </TableCell>
-                            <TableCell className="text-right">$450.00</TableCell>
-                        </TableRow> */}
                     </TableBody>
                 </Table>
             </CardContent>
-            <CardFooter className="p-0">
-                <div className="flex justify-between items-center w-full bg-muted/50 p-6">
-                    <div className=" text-xs text-muted-foreground">
-                        {/* {isData ? `Página ${page} de ${totalPages}` : "No hay existencias"} */}
-                        Pagina
-                    </div>
-                    <div>
-                        botones
-                    </div>
-                </div>
-            </CardFooter>
+            <PatientsTablePaginate searchParams={searchParams} patientsData={patientsData} />
         </Card>
     )
 }

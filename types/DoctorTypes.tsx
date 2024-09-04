@@ -4,7 +4,9 @@ export interface DoctorIntarface {
     phone: string,
     email: string,
     specialty: string,
-    working_time: WorkDay[]
+    working_time: WorkDay[],
+    createdAt: string,
+    updatedAt: string,
 }
 
 export type TimeSlot = {

@@ -3,138 +3,169 @@ import { PatientInterface } from "@/types/PatientsTypes";
 export const patientsData: PatientInterface[] = [
     {
         id: 1,
-        username: "Alvaro Perez",
+        name: "Alvaro Perez",
         email: "alvaro.perez@example.com",
         phone: "1235871238",
-        fichas_medicas: [],
-        medicalRecordId: 832195
+        medicalRecordId: 832195,
+        createdAt: "2023-01-15T10:45:00Z",
+        updatedAt: "2023-01-15T10:45:00Z",
     },
     {
         id: 2,
-        username: "Lucia Gonzalez",
+        name: "Lucia Gonzalez",
         email: "lucia.gonzalez@example.com",
         phone: "1235871245",
-        fichas_medicas: [],
-        medicalRecordId: 547831
+        medicalRecordId: 547831,
+        createdAt: "2023-02-20T14:30:00Z",
+        updatedAt: "2023-02-20T14:30:00Z",
+        healthcarePlan: "Mediplan"
     },
     {
         id: 3,
-        username: "Matias Lopez",
+        name: "Matias Lopez",
         email: "matias.lopez@example.com",
         phone: "1235871267",
-        fichas_medicas: [],
-        medicalRecordId: 291478
+        medicalRecordId: 291478,
+        createdAt: "2023-03-05T09:20:00Z",
+        updatedAt: "2023-03-05T09:20:00Z",
+        healthcarePlan: "Osde"
     },
     {
         id: 4,
-        username: "Sofia Martinez",
+        name: "Sofia Martinez",
         email: "sofia.martinez@example.com",
         phone: "1235871289",
-        fichas_medicas: [],
-        medicalRecordId: 194685
+        medicalRecordId: 194685,
+        createdAt: "2023-04-12T13:10:00Z",
+        updatedAt: "2023-04-12T13:10:00Z",
+        healthcarePlan: "Galeno"
     },
     {
         id: 5,
-        username: "Javier Fernandez",
+        name: "Javier Fernandez",
         email: "javier.fernandez@example.com",
         phone: "1235871302",
-        fichas_medicas: [],
-        medicalRecordId: 739201
+        medicalRecordId: 739201,
+        createdAt: "2023-05-22T11:55:00Z",
+        updatedAt: "2023-05-22T11:55:00Z",
+        healthcarePlan: "Swiss Medical"
     },
     {
         id: 6,
-        username: "Valentina Torres",
+        name: "Valentina Torres",
         email: "valentina.torres@example.com",
         phone: "1235871323",
-        fichas_medicas: [],
-        medicalRecordId: 624879
+        medicalRecordId: 624879,
+        createdAt: "2023-06-18T08:40:00Z",
+        updatedAt: "2023-06-18T08:40:00Z",
+        healthcarePlan: "Osde"
     },
     {
         id: 7,
-        username: "Mariano Ramirez",
+        name: "Mariano Ramirez",
         email: "mariano.ramirez@example.com",
         phone: "1235871345",
-        fichas_medicas: [],
-        medicalRecordId: 874319
+        medicalRecordId: 874319,
+        createdAt: "2023-07-03T15:25:00Z",
+        updatedAt: "2023-07-03T15:25:00Z",
     },
     {
         id: 8,
-        username: "Carla Romero",
+        name: "Carla Romero",
         email: "carla.romero@example.com",
         phone: "1235871367",
-        fichas_medicas: [],
-        medicalRecordId: 927315
+        medicalRecordId: 927315,
+        createdAt: "2023-08-10T10:50:00Z",
+        updatedAt: "2023-08-10T10:50:00Z",
+        healthcarePlan: "Mediplan"
     },
     {
         id: 9,
-        username: "Diego Dominguez",
+        name: "Diego Dominguez",
         email: "diego.dominguez@example.com",
         phone: "1235871389",
-        fichas_medicas: [],
-        medicalRecordId: 384726
+        medicalRecordId: 384726,
+        createdAt: "2023-09-01T12:15:00Z",
+        updatedAt: "2023-09-01T12:15:00Z",
+        healthcarePlan: "Sw"
     },
     {
         id: 10,
-        username: "Florencia Sanchez",
+        name: "Florencia Sanchez",
         email: "florencia.sanchez@example.com",
         phone: "1235871401",
-        fichas_medicas: [],
-        medicalRecordId: 615983
+        medicalRecordId: 615983,
+        createdAt: "2023-09-21T09:45:00Z",
+        updatedAt: "2023-09-21T09:45:00Z",
+        healthcarePlan: "Swiss Medical"
     },
     {
         id: 11,
-        username: "Gustavo Mendez",
+        name: "Gustavo Mendez",
         email: "gustavo.mendez@example.com",
         phone: "1235871423",
-        fichas_medicas: [],
-        medicalRecordId: 738291
+        medicalRecordId: 738291,
+        createdAt: "2023-10-15T11:20:00Z",
+        updatedAt: "2023-10-15T11:20:00Z",
+        healthcarePlan: "Galeno"
     },
     {
         id: 12,
-        username: "Camila Garcia",
+        name: "Camila Garcia",
         email: "camila.garcia@example.com",
         phone: "1235871445",
-        fichas_medicas: [],
-        medicalRecordId: 182546
+        medicalRecordId: 182546,
+        createdAt: "2023-11-02T14:35:00Z",
+        updatedAt: "2023-11-02T14:35:00Z",
+        healthcarePlan: "Osde"
     },
     {
         id: 13,
-        username: "Lucas Hernandez",
+        name: "Lucas Hernandez",
         email: "lucas.hernandez@example.com",
         phone: "1235871467",
-        fichas_medicas: [],
-        medicalRecordId: 593874
+        medicalRecordId: 593874,
+        createdAt: "2023-12-10T08:50:00Z",
+        updatedAt: "2023-12-10T08:50:00Z",
+        healthcarePlan: "Sw"
     },
     {
         id: 14,
-        username: "Nicolas Cruz",
+        name: "Nicolas Cruz",
         email: "nicolas.cruz@example.com",
         phone: "1235871489",
-        fichas_medicas: [],
-        medicalRecordId: 746382
+        medicalRecordId: 746382,
+        createdAt: "2024-01-01T09:15:00Z",
+        updatedAt: "2024-01-01T09:15:00Z",
     },
     {
         id: 15,
-        username: "Micaela Vega",
+        name: "Micaela Vega",
         email: "micaela.vega@example.com",
         phone: "1235871502",
-        fichas_medicas: [],
-        medicalRecordId: 935721
+        medicalRecordId: 935721,
+        createdAt: "2024-01-18T13:25:00Z",
+        updatedAt: "2024-01-18T13:25:00Z",
+        healthcarePlan: "Swiss Medical"
     },
     {
         id: 16,
-        username: "Emiliano Morales",
+        name: "Emiliano Morales",
         email: "emiliano.morales@example.com",
         phone: "1235871523",
-        fichas_medicas: [],
-        medicalRecordId: 482761
+        medicalRecordId: 482761,
+        createdAt: "2024-02-07T16:45:00Z",
+        updatedAt: "2024-02-07T16:45:00Z",
+        healthcarePlan: "Osde"
     },
     {
         id: 17,
-        username: "Agustina Diaz",
+        name: "Agustina Diaz",
         email: "agustina.diaz@example.com",
         phone: "1235871545",
-        fichas_medicas: [],
-        medicalRecordId: 214598
+        medicalRecordId: 214598,
+        createdAt: "2024-02-27T10:30:00Z",
+        updatedAt: "2024-02-27T10:30:00Z",
+        healthcarePlan: "Galeno"
     }
 ];

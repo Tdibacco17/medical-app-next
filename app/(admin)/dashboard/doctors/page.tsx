@@ -9,7 +9,7 @@ export default function Doctors() {
             <div className="flex justify-end w-full gap-4">
                 <DoctorCreate />
             </div>
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="grid lg:grid-cols-2 2xl:grid-cols-3 gap-8">
                 {doctorsData.map((doctorData: DoctorIntarface) => {
                     return <DoctorCard key={doctorData.id} doctorData={doctorData} />
                 })}
