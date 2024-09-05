@@ -65,39 +65,41 @@ export default function DoctorCreate() {
     return (
         <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
             <SheetTrigger asChild>
-                <Button variant={'blue'} className="flex items-center justify-center gap-2" size={'sm'}><PlusIcon />Crear medico</Button>
+                <Button variant={'blue'} className="flex items-center justify-center gap-2 h-9" size={'sm'}><PlusIcon />Crear medico</Button>
             </SheetTrigger>
             <SheetContent className="overflow-y-auto h-full min-w-full wrapper:min-w-[750px] ">
-                <SheetHeader>
-                    <SheetTitle>Crear medico</SheetTitle>
-                    <SheetDescription>
-                        Completar con los valores del nuevo profesional.
-                    </SheetDescription>
-                </SheetHeader>
-                <div className={`flex flex-col py-8`}>
-                    <form className="grid gap-8 h-full">
-                        <InfoDoctorValues nameRef={nameRef} specialtyRef={specialtyRef} emailRef={emailRef} phoneRef={phoneRef} />
-                        <Separator />
-                        <InfoTimesValues workingTime={workingTime} handleTimeSlotChange={handleTimeSlotChange} />
-                    </form>
-                </div>
-                <SheetFooter>
-                    <SheetClose asChild>
-                        <Button type="submit" variant={'blue'} size={'sm'}>Crear medico</Button>
-                    </SheetClose>
-                </SheetFooter>
+                <form>
+                    <SheetHeader>
+                        <SheetTitle>Crear medico</SheetTitle>
+                        <SheetDescription>
+                            Completar con los valores del nuevo profesional.
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div className={`flex flex-col py-8`}>
+                        <div className="grid gap-8 h-full">
+                            <InfoDoctorValues nameRef={nameRef} specialtyRef={specialtyRef} emailRef={emailRef} phoneRef={phoneRef} />
+                            <Separator />
+                            <InfoTimesValues workingTime={workingTime} handleTimeSlotChange={handleTimeSlotChange} />
+                        </div>
+                    </div>
+                    <SheetFooter>
+                        <SheetClose asChild>
+                            <Button type="submit" variant={'blue'} size={'sm'}>Crear medico</Button>
+                        </SheetClose>
+                    </SheetFooter>
+                </form>
             </SheetContent >
         </Sheet >
     )
 }
 
-interface InfoDoctorValues {
+interface InfoDoctorValuesInterface {
     nameRef: RefObject<HTMLInputElement>,
     specialtyRef: RefObject<HTMLInputElement>,
     emailRef: RefObject<HTMLInputElement>,
     phoneRef: RefObject<HTMLInputElement>
 }
-function InfoDoctorValues({ nameRef, specialtyRef, emailRef, phoneRef }: InfoDoctorValues) {
+function InfoDoctorValues({ nameRef, specialtyRef, emailRef, phoneRef }: InfoDoctorValuesInterface) {
     return (
         <div className="flex flex-col gap-4">
             <div className="grid grid-cols-5 items-center gap-4">

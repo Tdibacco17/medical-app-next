@@ -3,9 +3,12 @@ export type FichaMedica = {
 
 export type PatientInterface = {
     id: number;
-    username: string;
+    name: string;
     email: string;
     phone: string;
-    fichas_medicas: FichaMedica[];
-    medicalRecordId: number
+    // medicalRecors: FichaMedica[];
+    medicalRecordId: number,
+    createdAt: string,
+    updatedAt: string,
+    healthcarePlan?: string
 };

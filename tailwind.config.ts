@@ -15,12 +15,12 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
       },
     },
     extend: {
       screens: {
-        wrapper: "992px"
+        wrapper: "992px",
+        "2xl": "1600px",
       },
       colors: {
         border: "hsl(var(--border))",

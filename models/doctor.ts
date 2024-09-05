@@ -86,7 +86,9 @@ export const doctorsData: DoctorIntarface[] = [
                     to: '17:00'
                 },
             }
-        ]
+        ],
+        createdAt: "2023-12-10T08:50:00Z",
+        updatedAt: "2023-12-10T08:50:00Z"
     },
     {
         id: 2,
@@ -155,7 +157,9 @@ export const doctorsData: DoctorIntarface[] = [
                     to: '16:00'
                 },
             }
-        ]
+        ],
+        createdAt: "2023-12-10T08:50:00Z",
+        updatedAt: "2023-12-10T08:50:00Z"
     },
     {
         id: 3,
@@ -224,6 +228,8 @@ export const doctorsData: DoctorIntarface[] = [
                     to: null
                 },
             }
-        ]
+        ],
+        createdAt: "2023-12-10T08:50:00Z",
+        updatedAt: "2023-12-10T08:50:00Z"
     }
 ];
