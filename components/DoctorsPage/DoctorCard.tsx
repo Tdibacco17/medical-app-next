@@ -24,7 +24,7 @@ export function DoctorCard({ doctorData }: { doctorData: DoctorIntarface }) {
         <Card className="w-full">
             <CardHeader className="flex flex-row justify-between items-center gap-2 bg-muted/50">
                 <div className="flex flex-col gap-0.5">
-                    <CardTitle className="flex items-center gap-2 text-lg">{doctorData.name}</CardTitle>
+                    <CardTitle className="flex items-center gap-2">{doctorData.name}</CardTitle>
                     <CardDescription>{doctorData.specialty}</CardDescription>
                 </div>
                 <DropdownMenu>

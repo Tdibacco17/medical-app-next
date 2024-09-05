@@ -26,21 +26,19 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import PatientDelete from "./PatientDelete";
 import PatientEdit from "./PatientEdit";
 import PatientsTablePaginate from "./PatientsTablePaginate";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 export default function PatientsTable({ searchParams }: { searchParams?: { [key: string]: string } | undefined, }) {
-
-
     return (
         <Card x-chunk="dashboard-05-chunk-3">
             <CardHeader className="px-7">
                 <CardTitle>Pacientes</CardTitle>
                 <CardDescription>
-                    Total de 192 pacientes encontrados.
+                    {`Total de ${patientsData.length} pacientes encontrados.`}
                 </CardDescription>
             </CardHeader>
             <CardContent>

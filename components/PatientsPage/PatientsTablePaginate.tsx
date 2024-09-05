@@ -6,7 +6,6 @@ import {
     CardFooter,
 } from "@/components/ui/card"
 
-
 export default function PatientsTablePaginate({
     searchParams, patientsData
 }: {

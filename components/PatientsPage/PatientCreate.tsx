@@ -37,7 +37,7 @@ export default function PatientCreate() {
     return (
         <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
             <SheetTrigger asChild>
-                <Button variant={'blue'} className="flex items-center justify-center gap-2" size={'sm'}><PlusIcon />Crear medico</Button>
+                <Button variant={'blue'} className="flex items-center justify-center gap-2 h-9" size={'sm'}><PlusIcon />Crear medico</Button>
             </SheetTrigger>
             <SheetContent className="overflow-y-auto h-full min-w-full wrapper:min-w-[750px] ">
                 <form>
