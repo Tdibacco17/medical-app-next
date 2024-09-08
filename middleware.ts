@@ -1,24 +1,39 @@
-import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from "next-auth/middleware"
+import { NextResponse } from "next/server";
 
-export async function middleware(req: NextRequest) {
-    try {
-        const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-        // console.log('Session:', session);
+export default withAuth(
+    async function middleware(req) {
+        // console.log(req.nextauth.token)
 
-        if (!session || !session.accessToken) {
-            return NextResponse.redirect(new URL('/login', req.url));
-        }
+        try {
+            const session = req.nextauth.token
 
-        if (session.profiles?.includes('Admin')) {
-            return NextResponse.next();
-        } else {
+            if (!session || !session.accessToken) {
+                return NextResponse.redirect(new URL('/login', req.url));
+            }
+
+            if (session.profiles?.includes('Admin')) {
+                return NextResponse.next();
+            } else {
+                return NextResponse.redirect(new URL('/', req.url));
+            }
+        } catch (e) {
             return NextResponse.redirect(new URL('/', req.url));
         }
-    }catch(e){
-        return NextResponse.redirect(new URL('/', req.url));
-    }
-}
+    },
+    {
+        callbacks: {
+            authorized: ({ token }) => {
+                // console.log(token);
+                if (!token) return false
+                // if (!token.profiles?.includes('Admin')) {
+                //     return false
+                // }
+                return true
+            },
+        },
+    },
+)
 
 export const config = {
     matcher: ['/dashboard/:path*'],
