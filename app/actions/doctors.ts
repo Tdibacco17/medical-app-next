@@ -1,9 +1,9 @@
 'use server'
 import { getSessionToken } from "@/utils/getSessionToken";
-import { patientsData } from "@/models/patients";
+import { doctorsData } from "@/models/doctor";
 
-export async function getPatientsData() {
+export async function getDoctorsData() {
     const session = await getSessionToken()
     
-    return patientsData
+    return doctorsData
 }

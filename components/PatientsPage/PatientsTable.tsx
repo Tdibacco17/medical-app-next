@@ -14,7 +14,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { patientsData } from "@/models/patients";
 import { PatientInterface } from "@/types/PatientsTypes"
 import {
     DropdownMenu,
@@ -28,8 +27,11 @@ import PatientDelete from "./PatientDelete";
 import PatientEdit from "./PatientEdit";
 import PatientsTablePaginate from "./PatientsTablePaginate";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { getPatientsData } from "@/app/actions/patients";
 
-export default function PatientsTable({ searchParams }: { searchParams?: { [key: string]: string } | undefined, }) {
+export default async function PatientsTable({ searchParams }: { searchParams?: { [key: string]: string } | undefined, }) {
+    const patientsData = await getPatientsData()
+
     return (
         <Card x-chunk="dashboard-05-chunk-3">
             <CardHeader className="px-7">
