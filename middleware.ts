@@ -12,7 +12,7 @@ export default withAuth(
                 return NextResponse.redirect(new URL('/login', req.url));
             }
 
-            if (session.profiles?.includes('Admin')) {
+            if (session.roles?.includes('A')) {
                 return NextResponse.next();
             } else {
                 return NextResponse.redirect(new URL('/', req.url));
@@ -26,7 +26,7 @@ export default withAuth(
             authorized: ({ token }) => {
                 // console.log(token);
                 if (!token) return false
-                // if (!token.profiles?.includes('Admin')) {
+                // if (!token.roles?.includes('A')) {
                 //     return false
                 // }
                 return true

@@ -4,6 +4,6 @@ import { doctorsData } from "@/models/doctor";
 
 export async function getDoctorsData() {
     const session = await getSessionToken()
-    
+
     return doctorsData
 }

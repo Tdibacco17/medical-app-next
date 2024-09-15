@@ -31,9 +31,10 @@ const handler = NextAuth({
                 }
 
                 const user = {
-                    id: parseReponse.data.idUser,
-                    profiles: parseReponse.data.profiles,
-                    accessToken: parseReponse.data.token,
+                    id: parseReponse.data.email,
+                    roles: parseReponse.data.roles,
+                    email: parseReponse.data.email,
+                    accessToken: parseReponse.data.accessToken,
                 }
                 return user
             }
@@ -42,15 +43,15 @@ const handler = NextAuth({
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
-                token.profiles = user.profiles;
+                token.email = user.email;
+                token.roles = user.roles;
                 token.accessToken = user.accessToken;
             }
             // console.log('JWT Callback:', token);
             return token;
         },
         async session({ session, token }) {
-            session.user.id = token.id?.toString();
+            session.user.email = token.email;
             // session.user.accessToken  = token.accessToken ;
             // console.log('Session Callback:', session);
             return session;

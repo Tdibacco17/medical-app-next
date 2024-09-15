@@ -20,3 +20,9 @@ export interface WorkDay {
     morning: TimeSlot,
     afternoon: TimeSlot
 }
+
+
+export interface SpecialtyDataInterface {
+    id: string,
+    description: string
+}
