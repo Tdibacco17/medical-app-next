@@ -18,7 +18,7 @@ export default function SpecialtyCreate() {
             return;
         }
         if (response.status !== 201) {
-            toast.warning(response.message)
+            toast.info(response.message)
             return;
         }
 
@@ -27,8 +27,7 @@ export default function SpecialtyCreate() {
     }
     return (
         <form onSubmit={handleCreate} className="grid grid-cols-2 gap-4">
-            <Input value={inputName} onChange={(e) => setInputName(e.target.value)}
-                className="placeholder:text-xs" type="text" placeholder={`Nueva especialidad...`} />
+            <Input value={inputName} onChange={(e) => setInputName(e.target.value)} type="text" placeholder={`Nueva especialidad...`} />
             <Button disabled={inputName.trim().length === 0} type="submit" variant={"blue"} >Guardar</Button>
         </form>
     )

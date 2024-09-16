@@ -40,7 +40,7 @@ export async function getSpecialties(): Promise<ApiDataResponseInterface> {
         })
         const rawResponse: ApiDataResponseInterface = await response.json()
 
-        if (rawResponse.status !== 200) return rawResponse;
+        if (rawResponse.status !== 200) return { message: rawResponse.message, status: rawResponse.status, data: [] };
         revalidatePath("/dashboard/doctors");
         return rawResponse
     } catch (e) {

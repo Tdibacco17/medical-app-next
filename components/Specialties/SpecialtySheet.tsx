@@ -17,6 +17,8 @@ import SpecialtyCreate from "./SpecialtyCreate"
 import SpecialtyDelete from "./SpecialtyDelete"
 import { SpecialtyDataInterface } from "@/types/DoctorTypes"
 import { getSpecialties } from "@/app/actions/specialty"
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function SpecialtySheet() {
     return (
@@ -40,10 +42,12 @@ export default function SpecialtySheet() {
                         <SpecialtyCreate />
                     </TabsContent>
                     <TabsContent value="Eliminar" className="pt-8">
+                        <Suspense fallback={<SpecialtySkeleton />}>
                         <AsyncSpecialtyDelete />
-                    </TabsContent>
-                </Tabs>
-            </SheetContent >
+                    </Suspense>
+                </TabsContent>
+            </Tabs>
+        </SheetContent >
         </Sheet >
     )
 }
@@ -52,4 +56,13 @@ async function AsyncSpecialtyDelete() {
     const response = await getSpecialties()
     const data: [] | SpecialtyDataInterface[] = response.data;
     return <SpecialtyDelete data={data} />
+}
+
+function SpecialtySkeleton() {
+    return (
+        <div className="grid grid-cols-2 gap-4">
+            <Skeleton className="h-9 w-full" />
+            <Skeleton className="h-9 w-full" />
+        </div>
+    )
 }

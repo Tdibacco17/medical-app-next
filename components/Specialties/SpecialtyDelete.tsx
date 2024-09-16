@@ -37,7 +37,7 @@ export default function SpecialtyDelete({ data }: { data: SpecialtyDataInterface
         }
 
         if (response.status !== 200) {
-            toast.warning(response.message);
+            toast.info(response.message);
             return;
         }
 
@@ -47,7 +47,7 @@ export default function SpecialtyDelete({ data }: { data: SpecialtyDataInterface
 
     return (
         <div className="grid grid-cols-2 gap-4">
-            {data.length > 0
+            {data?.length > 0
                 ? <Select onValueChange={setSelectedValue} value={selectedValue || ""}>
                     <SelectTrigger>
                         <SelectValue placeholder={`Seleccionar especialidad`} />
@@ -62,7 +62,9 @@ export default function SpecialtyDelete({ data }: { data: SpecialtyDataInterface
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                : <p className="py-2 h-9 text-muted-foreground text-sm">No hay existencias.</p>}
+                : <p className="h-9 px-3 py-1 flex items-center justify-start border-transparent text-xs text-muted-foreground">
+                    No hay existencias...
+                </p>}
             <AlertDialog>
                 <AlertDialogTrigger asChild>
                     <Button disabled={selectedValue === ""} type="button" variant={"destructive"} >Eliminar</Button>

@@ -1,5 +1,5 @@
 import { getDoctorsData } from "@/app/actions/doctors"
-import { DoctorCard } from "@/components/DoctorsPage/DoctorCard"
+import { DoctorCard } from "@/components/Doctors/DoctorCard"
 import { DoctorIntarface } from "@/types/DoctorTypes";
 
 export async function GridDoctorsCards() {
