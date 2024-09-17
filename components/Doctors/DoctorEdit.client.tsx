@@ -1,4 +1,5 @@
 'use client'
+import { Separator } from "@/components/ui/separator"
 import {
     Sheet,
     SheetClose,
@@ -12,31 +13,42 @@ import {
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons"
-import { RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { DoctorIntarface, NewFormDataDoctorInterface, SpecialtyDataInterface, TimeSlot, WorkDay } from "@/types/DoctorTypes"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
+    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { SpecialtyDataInterface, TimeSlot, WorkDay } from "@/types/DoctorTypes"
-import { Separator } from "@/components/ui/separator"
-import { initialWorkingTime, timeDataAfternoon, timeDataMorning } from "@/models/doctor"
+import { timeDataAfternoon, timeDataMorning } from "@/models/doctor"
 import { Badge } from "@/components/ui/badge"
-import { createDoctor } from "@/app/actions/doctors"
+import { Cross2Icon } from "@radix-ui/react-icons"
+import { updateDoctorData } from "@/app/actions/doctors"
 import { toast } from "sonner"
 
-export default function DoctorCreateClient({ data }: { data: SpecialtyDataInterface[] }) {
+export default function DoctorEditClient({ doctorData, data }: { doctorData: DoctorIntarface, data: [] | SpecialtyDataInterface[] }) {
     const [isOpen, setIsOpen] = useState(false);
 
-    const nameRef = useRef<HTMLInputElement>(null)
-    const lastnameRef = useRef<HTMLInputElement>(null)
-    const emailRef = useRef<HTMLInputElement>(null)
-    const phoneRef = useRef<HTMLInputElement>(null)
-    const dniRef = useRef<HTMLInputElement>(null)
+    const [formData, setFormData] = useState<NewFormDataDoctorInterface>({
+        name: doctorData.name,
+        email: doctorData.email,
+        phone: doctorData.phone,
+        lastname: doctorData.lastname,
+        dni: doctorData.dni,
+        id: doctorData.id
+    });
+
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+    }, []);
 
     const [selectedValues, setSelectedValues] = useState<SpecialtyDataInterface[]>([]);
     const [selectValue, setSelectValue] = useState<string>("");
@@ -55,37 +67,7 @@ export default function DoctorCreateClient({ data }: { data: SpecialtyDataInterf
         }
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const name = nameRef.current?.value || "";
-        const lastname = lastnameRef.current?.value || "";
-        const email = emailRef.current?.value || "";
-        const phone = phoneRef.current?.value || "";
-        const dni = dniRef.current?.value || "";
-        const specialty_ids = selectedValues.map(item => item.id);
-
-        const response = await createDoctor({ name, lastname, email, phone, dni, specialty_ids });
-
-        if (response.status === 500) {
-            toast.error(response.message);
-            return;
-        }
-        if (response.status !== 201) {
-            toast.info(response.message)
-            return;
-        }
-
-        setSelectedValues([])
-        setSelectValue("")
-        if (nameRef.current) nameRef.current.value = "";
-        if (lastnameRef.current) lastnameRef.current.value = "";
-        if (emailRef.current) emailRef.current.value = "";
-        if (phoneRef.current) phoneRef.current.value = "";
-        if (dniRef.current) dniRef.current.value = "";
-        toast.success(response.message);
-    };
-
-    // const [workingTime, setWorkingTime] = useState<WorkDay[]>(initialWorkingTime);
+    // const [workingTime, setWorkingTime] = useState<WorkDay[]>(doctorData.working_time);
 
     // const handleTimeSlotChange = useCallback((dayId: number, timeOfDay: 'morning' | 'afternoon', field: 'from' | 'to', value: string) => {
     //     setWorkingTime(prevWorkingTime =>
@@ -105,100 +87,136 @@ export default function DoctorCreateClient({ data }: { data: SpecialtyDataInterf
 
     useEffect(() => {
         if (!isOpen) {
-            // setWorkingTime(initialWorkingTime);
+            // setWorkingTime(doctorData.working_time);
             setSelectedValues([])
             setSelectValue("")
-            if (nameRef.current) nameRef.current.value = "";
-            if (lastnameRef.current) lastnameRef.current.value = "";
-            if (emailRef.current) emailRef.current.value = "";
-            if (phoneRef.current) phoneRef.current.value = "";
-            if (dniRef.current) dniRef.current.value = "";
+            setFormData({
+                name: doctorData.name,
+                email: doctorData.email,
+                phone: doctorData.phone,
+                lastname: doctorData.lastname,
+                dni: doctorData.dni,
+                id: doctorData.id
+            })
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        // Mapea las descripciones del formData para encontrar los objetos correspondientes en 'data'
+        if (data && doctorData.specialty_descriptions.length > 0) {
+            const matchedSpecialties = doctorData.specialty_descriptions.map((description) =>
+                data.find((item) => item.description === description)
+            ).filter(Boolean) as SpecialtyDataInterface[]; // Filtra valores nulos/indefinidos
+
+            setSelectedValues(matchedSpecialties);
+        }
+    }, [isOpen]);
+
+    const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const specialty_ids = selectedValues.map(item => item.id);
+
+        const response = await updateDoctorData({ doctorData: formData, specialty_ids });
+
+        if (response.status === 500) {
+            toast.error(response.message);
+            return;
+        }
+        if (response.status !== 200) {
+            toast.info(response.message)
+            return;
+        }
+
+        toast.success(response.message);
+    }
 
     return (
         <Sheet open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
             <SheetTrigger asChild>
-                <Button variant={'blue'} className="flex items-center justify-center gap-2 h-9" size={'sm'}><PlusIcon />Crear medico</Button>
+                <Button variant="ghost" className="w-full text-left justify-start px-2 py-1/5">Editar</Button>
             </SheetTrigger>
             <SheetContent className="overflow-y-auto h-full min-w-full wrapper:min-w-[750px] ">
-                <form onSubmit={handleSubmit}>
-                    <SheetHeader>
-                        <SheetTitle>Crear medico</SheetTitle>
+                <form onSubmit={handleUpdate}>
+                    <SheetHeader >
+                        <SheetTitle>Editar medico</SheetTitle>
                         <SheetDescription>
-                            Completar con los valores del nuevo profesional.
+                            Completar con los valores que desee cambiar.
                         </SheetDescription>
                     </SheetHeader>
                     <div className={`flex flex-col py-8`}>
                         <div className="grid gap-8 h-full">
-                            <InfoDoctorValues {...{
-                                nameRef, lastnameRef, emailRef, phoneRef, dniRef,
-                                data, selectedValues, handleSelectChange, selectValue
-                            }} />
+                            <InfoDoctorValues {...{ formData, handleChange, selectedValues, selectValue, handleSelectChange, data }} />
                             <Separator />
-                            {/* <InfoTimesValues workingTime={workingTime} handleTimeSlotChange={handleTimeSlotChange} /> */}
+                            {/* <InfoTimesValues doctorData={doctorData} handleTimeSlotChange={handleTimeSlotChange} /> */}
                         </div>
                     </div>
                     <div className="flex justify-end w-full">
-                        <Button type="submit" variant={'blue'} size={'sm'}>Crear medico</Button>
+                        <Button type="submit" variant={'blue'} size={'sm'}>Guardar cambios</Button>
                     </div>
                 </form>
-            </SheetContent >
-        </Sheet >
+            </SheetContent>
+        </Sheet>
     )
 }
 
-interface InfoDoctorValuesInterface {
-    nameRef: RefObject<HTMLInputElement>,
-    emailRef: RefObject<HTMLInputElement>,
-    phoneRef: RefObject<HTMLInputElement>,
-    lastnameRef: RefObject<HTMLInputElement>,
-    dniRef: RefObject<HTMLInputElement>,
-    data: SpecialtyDataInterface[],
+interface InfoDoctorValuesProps {
+    formData: NewFormDataDoctorInterface,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     selectedValues: SpecialtyDataInterface[],
     handleSelectChange: (id: string) => void,
-    selectValue: string
+    selectValue: string,
+    data: [] | SpecialtyDataInterface[]
 }
-function InfoDoctorValues({ nameRef, emailRef, phoneRef, lastnameRef, dniRef, data, selectedValues, handleSelectChange, selectValue }: InfoDoctorValuesInterface) {
+function InfoDoctorValues({ formData, handleChange, selectedValues, handleSelectChange, selectValue, data }: InfoDoctorValuesProps) {
     return (
         <div className="flex flex-col gap-4">
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="create-doctor-name">Nombre</Label>
+                <Label htmlFor="edit-doctor-name">Nombre</Label>
                 <Input
-                    id="create-doctor-name"
-                    ref={nameRef}
+                    id="edit-doctor-name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="create-doctor-lastname">Apellido</Label>
+                <Label htmlFor="edit-doctor-lastname">Apellido</Label>
                 <Input
-                    id="create-doctor-lastname"
-                    ref={lastnameRef}
+                    id="edit-doctor-lastname"
+                    name="lastname"
+                    value={formData.lastname}
+                    onChange={handleChange}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="create-doctor-email">Email</Label>
+                <Label htmlFor="edit-doctor-email">Email</Label>
                 <Input
-                    id="create-doctor-email"
-                    ref={emailRef}
+                    id="edit-doctor-email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="create-doctor-phone">Teléfono</Label>
+                <Label htmlFor="edit-doctor-phone">Teléfono</Label>
                 <Input
-                    id="create-doctor-phone"
-                    ref={phoneRef}
+                    id="edit-doctor-phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     className="col-span-4"
                 />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
-                <Label htmlFor="create-doctor-dni">DNI</Label>
+                <Label htmlFor="edit-doctor-dni">DNI</Label>
                 <Input
-                    id="create-doctor-dni"
-                    ref={dniRef}
+                    id="edit-doctor-dni"
+                    name="dni"
+                    value={formData.dni}
+                    onChange={handleChange}
                     className="col-span-4"
                 />
             </div>
@@ -244,11 +262,11 @@ function InfoDoctorValues({ nameRef, emailRef, phoneRef, lastnameRef, dniRef, da
     )
 }
 
-// interface InfoTimesValuesInterface {
-//     workingTime: WorkDay[];
+// interface InfoTimesValuesInterace {
+//     doctorData: DoctorIntarface;
 //     handleTimeSlotChange: (dayId: number, timeOfDay: 'morning' | 'afternoon', field: 'from' | 'to', value: string) => void;
 // }
-// function InfoTimesValues({ workingTime, handleTimeSlotChange }: InfoTimesValuesInterface) {
+// function InfoTimesValues({ doctorData, handleTimeSlotChange }: InfoTimesValuesInterace) {
 
 //     const morningOptions = useMemo(() => timeDataMorning.map(time => (
 //         <SelectItem key={`morning-${time}`} value={time}>
@@ -265,11 +283,11 @@ function InfoDoctorValues({ nameRef, emailRef, phoneRef, lastnameRef, dniRef, da
 //     return (
 //         <div className="flex flex-col gap-4">
 //             <div className="grid grid-cols-5 gap-4">
-//                 <Label className="text-muted-foreground">Día</Label>
+//                 <Label className="text-muted-foreground">Dia</Label>
 //                 <Label className="col-span-2 text-muted-foreground">Mañana</Label>
 //                 <Label className="col-span-2 text-muted-foreground">Tarde</Label>
 //             </div>
-//             {workingTime.map((workDay: WorkDay) => {
+//             {doctorData.working_time.map((workDay: WorkDay) => {
 //                 return (
 //                     <div key={workDay.id} className="grid grid-cols-5 items-center gap-4">
 //                         <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -305,9 +323,11 @@ function InfoDoctorValues({ nameRef, emailRef, phoneRef, lastnameRef, dniRef, da
 // }
 
 // interface TimeSlotSelectInterface {
-//     timeData: any, onChange: (value: string) => void, placeholder: string
+//     timeData: React.ReactNode[];
+//     placeholder: string;
+//     onChange: (value: string) => void;
 // }
-// function TimeSlotSelect({ timeData, onChange, placeholder }: TimeSlotSelectInterface) {
+// function TimeSlotSelect({ timeData, placeholder, onChange }: TimeSlotSelectInterface) {
 //     return (
 //         <Select onValueChange={onChange}>
 //             <SelectTrigger className="overflow-hidden">
@@ -315,9 +335,10 @@ function InfoDoctorValues({ nameRef, emailRef, phoneRef, lastnameRef, dniRef, da
 //             </SelectTrigger>
 //             <SelectContent>
 //                 <SelectGroup>
+//                     <SelectLabel>Hora</SelectLabel>
 //                     {timeData}
 //                 </SelectGroup>
 //             </SelectContent>
 //         </Select>
-//     )
-// }
+//     );
+// };

@@ -15,17 +15,17 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DoctorIntarface } from "@/types/DoctorTypes"
-import DoctorEdit from "./DoctorEdit"
 import DoctorDelete from "./DoctorDelete"
-import DoctorTable from "./DoctorTable"
+import DoctorEdit from "./DoctorEdit"
 
 export function DoctorCard({ doctorData }: { doctorData: DoctorIntarface }) {
+
     return (
         <Card className="w-full">
             <CardHeader className="flex flex-row justify-between items-center gap-2 bg-muted/50">
                 <div className="flex flex-col gap-0.5">
-                    <CardTitle className="flex items-center gap-2">{doctorData.name}</CardTitle>
-                    <CardDescription>{doctorData.specialty}</CardDescription>
+                    <CardTitle className="flex items-center gap-2">{`${doctorData.name} ${doctorData.lastname}`}</CardTitle>
+                    <CardDescription>{doctorData.specialty_descriptions.join(", ")}</CardDescription>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -48,11 +48,15 @@ export function DoctorCard({ doctorData }: { doctorData: DoctorIntarface }) {
                         <p className="font-semibold">Teléfono</p>
                         <p className="text-muted-foreground">{doctorData.phone}</p>
                     </div>
+                    <div className="flex flex-col gap-0.5">
+                        <p className="font-semibold">DNI</p>
+                        <p className="text-muted-foreground">{doctorData.dni}</p>
+                    </div>
                 </div>
             </CardContent>
-            <CardFooter className="flex flex-col items-start gap-3 pb-6 text-sm text-wrap break-all ">
+            {/* <CardFooter className="flex flex-col items-start gap-3 pb-6 text-sm text-wrap break-all ">
                 <DoctorTable doctorData={doctorData} />
-            </CardFooter>
+            </CardFooter> */}
         </Card>
     );
 }

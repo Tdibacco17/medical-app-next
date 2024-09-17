@@ -51,7 +51,7 @@ export async function getSpecialties(): Promise<ApiDataResponseInterface> {
 // eliminar especialidad
 export async function deleteSpecialtyById({ id }: { id: string }): Promise<ApiResponseInterface> {
     try {
-        if (!id) return { message: "Id no proporcionado.", status: 400, };
+        if (!id) return { message: "Debe seleccionar una especialidad.", status: 400, };
         const session = await getSessionToken()
 
         const response = await fetch(`${process.env.APIGATEWAY_URL}/specialty/${id}`, {

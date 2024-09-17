@@ -1,10 +1,12 @@
 export interface DoctorIntarface {
-    id: number,
+    id: string,
     name: string,
-    phone: string,
+    lastname: string,
     email: string,
-    specialty: string,
-    working_time: WorkDay[],
+    phone: string,
+    dni: string,
+    specialty_descriptions: string[],
+    // working_time: WorkDay[],
     createdAt: string,
     updatedAt: string,
 }
@@ -25,4 +27,13 @@ export interface WorkDay {
 export interface SpecialtyDataInterface {
     id: string,
     description: string
+}
+
+export interface NewFormDataDoctorInterface {
+    name: string,
+    lastname: string,
+    email: string,
+    phone: string,
+    dni: string,
+    id: string
 }
