@@ -1,3 +1,5 @@
+'use client'
+import { deleteDoctorById } from "@/app/actions/doctors"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,8 +12,25 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { toast } from "sonner";
 
-export default function DoctorDelete({ doctorId }: { doctorId: number }) {
+export default function DoctorDelete({ doctorId }: { doctorId: string }) {
+
+    const handleDelete = async (doctorId: string) => {
+        const response = await deleteDoctorById({ doctorId });
+
+        if (response.status === 500) {
+            toast.error(response.message);
+            return;
+        }
+        if (response.status !== 200) {
+            toast.info(response.message)
+            return;
+        }
+
+        toast.success(response.message);
+    };
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -19,15 +38,16 @@ export default function DoctorDelete({ doctorId }: { doctorId: number }) {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Atención!</AlertDialogTitle>
+                    <AlertDialogTitle>Atención</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Esta acción no se puede deshacer. Esto eliminará de forma permanente tu
-                        doctor y sus datos de nuestros servidores.
+                        Seguro que quieres eliminar a este medico?
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction className={buttonVariants({ variant: 'destructive' })}>Eliminar</AlertDialogAction>
+                    <AlertDialogAction className={buttonVariants({ variant: 'destructive' })} onClick={() => handleDelete(doctorId)}>
+                        Eliminar
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

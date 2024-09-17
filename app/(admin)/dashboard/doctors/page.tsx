@@ -1,6 +1,6 @@
-import DoctorCreate from "@/components/DoctorsPage/DoctorCreate";
-import { GridDoctorsCards } from "@/components/DoctorsPage/GridDoctorsCards";
-import SpecialtySheet from "@/components/DoctorsPage/SpecialtySheet";
+import DoctorCreate from "@/components/Doctors/DoctorCreate";
+import { GridDoctorsCards } from "@/components/Doctors/GridDoctorsCards";
+import SpecialtySheet from "@/components/Specialties/SpecialtySheet";
 
 export default function Doctors() {
     return (

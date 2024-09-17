@@ -17,6 +17,8 @@ import SpecialtyCreate from "./SpecialtyCreate"
 import SpecialtyDelete from "./SpecialtyDelete"
 import { SpecialtyDataInterface } from "@/types/DoctorTypes"
 import { getSpecialties } from "@/app/actions/specialty"
+// import { Suspense } from "react"
+// import { Skeleton } from "@/components/ui/skeleton"
 
 export default function SpecialtySheet() {
     return (
